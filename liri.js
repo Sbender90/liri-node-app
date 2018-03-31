@@ -1,66 +1,82 @@
 
-
-require("dotenv").config();
-/* <script src="keys.js"></script> */
-var request = require("request");
-var fs = require("fs");
-
-var action = process.argv[2];
-var value = process.argv[3];
-var movieName = "";
-
-
-
 // var spotifyKey = new spotify(keys.spotify);
 // var twitterKey = new twitter(keys.twitter);
 // var omdbKey = new omdbKey(keys.omdb);
 
-switch (action) {
-    case "movie-this":
-      movieData();
-      break;
+require("dotenv").config();
+var config = require('./keys.js');
+var request = require("request");
+var Twitter = require('twitter');
+var spotify = require('spotify');
+
+
+// var nodeArgs = process.argv;
+
+// var movieName = "";
+
+// for (var i = 2; i < nodeArgs.length; i++) {
+
+//   if (i > 2 && i < nodeArgs.length) {
+
+//     movieName = movieName + "+" + nodeArgs[i];
+
+//   }
+
+//   else {
+
+//     movieName += nodeArgs[i];
+
+//   }
+// }
+
+// var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
+
+// console.log(queryUrl);
+
+// request(queryUrl, function(error, response, body) {
+
+// if (!error && response.statusCode === 200) {
+    
+
+//         console.log("Year the movie came out: " + JSON.parse(body).Year);
+//         console.log("IMDB Rating of the movie: " + JSON.parse(body).imdbRating);
+//         // console.log("Rotten Tomatoes Rating of the movie: " + JSON.parse(body).rottenTomatoesRating);
+//         console.log("Country where the movei was produced: " + JSON.parse(body).Country);
+//         console.log("Language of the movie: " + JSON.parse(body).Language);
+//         console.log("Plot of the movie: " + JSON.parse(body).Plot);
+//         console.log("Actors in the movie: " + JSON.parse(body).Actors);
+//   }
+// });
+//--------------------------------------------------
+var client = new Twitter({
+  consumer_key: process.env.TWITTER_CONSUMER_KEY,
+  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
+  access_token_key: process.env.TWITTER_ACCESS_TOKEN_KEY,
+  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET
+});
+
+// var params = {q: 'npde.js',
+//                   count: 20,
+//                   resilt_type: "recent",
+//                   lang: "en"
+//               };
+// client.get('statuses/user_timeline', params, function(error, tweets, response) {
+//   if (!error) {
+//     console.log(JSON.stringify(tweets, null, 2));
+//   }
+// });
+// // 
+var spotify = new Spotify({
+  id: process.env.SPOTIFY_ID,
+  secret: process.env.SPOTIFY_SECRET
+});
+
+ 
+spotify.search({ type: 'track', query: 'dancing in the moonlight' }, function(err, data) {
+    if ( err ) {
+        console.log('Error occurred: ' + err);
+        return;
     }
-function movieData() {
-    var nodeArgs = process.argv;
-   
-    for (var i = 2; i < nodeArgs.length; i++) {
-
-      if (i > 2 && i < nodeArgs.length) {
-    
-        movieName = movieName + "+" + nodeArgs[i];
-    
-      }
-    
-      else {
-    
-        movieName += nodeArgs[i];
-      }
-    }
-
-    var queryUrl = "http://www.omdbapi.com/?t=" + movieName + "&y=&plot=short&apikey=trilogy";
-
-    // This line is just to help us debug against the actual URL.
-    console.log(queryUrl);
-    
-    request(queryUrl, function(error, response, body) {
-    
-      // If the request is successful
-      if (!error && response.statusCode === 200) {
-    
-        // Parse the body of the site and recover just the imdbRating
-        // (Note: The syntax below for parsing isn't obvious. Just spend a few moments dissecting it).
-        console.log("Title of the movie: " + JSON.parse(body).Title);
-        console.log("Year the movie came out: " + JSON.parse(body).Year);
-        console.log("IMDB Rating of the movie: " + JSON.parse(body).imdbRating);
-        // console.log("Rotten Tomatoes Rating of the movie: " + JSON.parse(body).rottenTomatoesRating);
-        console.log("Country where the movei was produced: " + JSON.parse(body).Country);
-        console.log("Language of the movie: " + JSON.parse(body).Language);
-        console.log("Plot of the movie: " + JSON.parse(body).Plot);
-        console.log("Actors in the movie: " + JSON.parse(body).Actors);
-
-      }
-    });
-  }
-
-
-
+ 
+    // Do something with 'data' 
+});
