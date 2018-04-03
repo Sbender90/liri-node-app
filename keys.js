@@ -7,12 +7,12 @@ exports.twitter = {
 };
 
 exports.spotify = {
-  id: process.env.SPOTIFY_ID,
-  secret: process.env.SPOTIFY_SECRET
+  clientId: process.env.SPOTIFY_ID,
+  ClientSecret: process.env.SPOTIFY_SECRET
 };
 
 exports.omdb = {
   key: process.env.OBDb_KEY
 };
 
-console.log('this is loaded: ' , exports.omdb);
+
