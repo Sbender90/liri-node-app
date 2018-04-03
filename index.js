@@ -67,7 +67,7 @@ var startApp = function(){
       getSpotify(startApp);
       break;
     case "movie-this":
-      getmovie(startApp);
+      getMovie(startApp);
       break;
     case "do-what-it-says":
       getRandom(getSpotify, startApp);
@@ -129,6 +129,50 @@ var getTweets = function(callbackFunction) {
 
 
 };
+//----------------------------
+var queryMovie;
+var callback;
+
+var getMovie = function(callbackFunction){
+  callback = callbackFunction;
+  inquirer.prompt([
+    {
+      type: "input",
+      name: "movieTitle",
+      message: "Type a movie title"
+    }
+  ]).then(function(userInput){
+    if(userInput.movieTitle === ""){
+      queryMovie = "Free Willy";
+    
+    }else {
+      queryMovie = userInput.movieTitle;
+    }
+		request("http://www.omdbapi.com/?t=" + queryMovie + "&y=&plot=short&apikey=trilogy", function(error, response, body) {
+		  if (!error && response.statusCode === 200) {
+		   	var parsedJSON = JSON.parse(body);
+				console.log("\n###############################################");
+			  console.log("\n");
+			  console.log("Title: " + parsedJSON.Title);
+			  console.log("Release date: " + parsedJSON.Released);
+				console.log("IMDB rating: " + parsedJSON.imdbRating);
+				console.log("Rotten Tomatoes rating: " + parsedJSON.Ratings[1]["Value"]);
+				console.log("Country origin: " + parsedJSON.Country);
+				console.log("Language: " + parsedJSON.Language);
+				console.log("Plot: " + parsedJSON.Plot);
+				console.log("Actors: " + parsedJSON.Actors);
+				console.log("\n###############################################");
+				console.log("\n");
+		  }else {
+		  	return console.log(error, " ", response.statusCode)
+		  }
+		  callback();
+		})
+
+  })
+};
+
+
 
 //----------------------------------------------------
 // var params = {q: 'Sbender90',
