@@ -15,4 +15,4 @@ exports.omdb = {
   key: process.env.OBDb_KEY
 };
 
-console.log('this is loaded: ' + exports.omdb);
+console.log('this is loaded: ' , exports.omdb);
