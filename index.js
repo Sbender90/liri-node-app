@@ -9,6 +9,8 @@ var request = require("request");
 var Twitter = require('twitter');
 var spotify = require('spotify');
 var inquirer = require('inquirer');
+var readTxt = require("fs");
+
 
 var startApp = function(){
   inquirer.prompt([
@@ -16,7 +18,7 @@ var startApp = function(){
       type: "list",
       name: "userInput",
       message: "Pick a Command:",
-      choices: ["my-tweets", "sotify-this-song", "movie-this", "do-what-it-says"] 
+      choices: ["my-tweets", "spotify-this-song", "movie-this", "do-what-it-says"] 
     }
 
   ]).then(function(liriInput){
@@ -31,7 +33,7 @@ var startApp = function(){
       getMovie(startApp);
       break;
     case "do-what-it-says":
-      getRandom(getSpotify, startApp);
+      getRandom(getMovie, startApp);
       break;
     default :
       console.log("error");
@@ -135,8 +137,10 @@ var getMovie = function(callbackFunction){
 
 // var queryTrack;
 // var callback;
+
 // var spotify = new Spotify(keys.spotify);
 // console.log("spotify:", spotify);
+//-------------------------------------------------------------------
 // var getSpotify = function(callbackFunction, queryStr){
 // 	callback = callbackFunction;
 
@@ -147,13 +151,18 @@ var getMovie = function(callbackFunction){
 // 		    name: "trackName",
 // 		    message: "Type in a song name"
 // 		  }
-// 		]).then(function(userInput){spotifySearch(userInput, callbackFunction)})		
+// 		]).then(function(userInput){spotifySearch(userInput, function() {
+
+//     })})		
 // 	} else {
-// 		spotifySearch({trackName: queryStr}, callbackFunction);
+// 		spotifySearch({trackName: queryStr}, function() {
+
+//     });
 // 	}
 // };	
 
-// function spotifySearch(userInput, callbackFunction){
+// function spotifySearch(userInput, callbackFunction){ 
+
 // 		queryTrack = userInput.trackName;
 // 		if(userInput.trackName === "") {
 // 			spotify.search({ type: "track", query: "Ace of Base" }, function(err, data){
@@ -181,6 +190,20 @@ var getMovie = function(callbackFunction){
 // 	console.log("Album: ", data.tracks.items[0].album.name);
 // 	console.log("\n");
 // 	console.log("--------------------");
-// 	callbackFunction();
+// 	callback();
 // };
+//-------------------------------------------------------------------
 
+
+var readTxt = require("fs");
+
+var getRandom = function(callbackA, callbackB){
+  readTxt.readFile("random.txt", "utf8", function(error, data){
+    if(error){
+      return console.log(error);
+    }
+var queryStr = data;
+callbackA(callbackB, queryStr)
+
+  })
+}

@@ -7,8 +7,8 @@ exports.twitter = {
 };
 
 exports.spotify = {
-  clientId: process.env.SPOTIFY_ID,
-  ClientSecret: process.env.SPOTIFY_SECRET
+  id: process.env.SPOTIFY_ID,
+  secret: process.env.SPOTIFY_SECRET
 };
 
 exports.omdb = {
